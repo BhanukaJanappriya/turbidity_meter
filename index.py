@@ -33,6 +33,16 @@ def compute_turbidity_index(min_intensity, max_intensity):
         return 0
     return (max_intensity - min_intensity) / (max_intensity + min_intensity)
 
+def compute_edge_density(image):
+    """
+    Apply Canny edge detection and compute edge density.
+    """
+    edges = cv2.Canny(image, 100, 200)
+    edge_pixels = np.sum(edges > 0)
+    total_pixels = image.shape[0] * image.shape[1]
+    edge_density = edge_pixels / total_pixels
+    return edge_density
+
 
 def segment_regions(image,block_size = 50):
     """
@@ -94,3 +104,5 @@ try:
     turbidity_index = compute_turbidity_index(min_intensity, max_intensity)
     edge_density = compute_edge_density(preprocessed_unknown)
     region_brightness = segment_regions(preprocessed_unknown)
+    
+    estimated_ntu = a_param * np.exp(-b_param * avg_intensity)
