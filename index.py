@@ -52,4 +52,22 @@ def fit_exponential_model(intensities, ntu_values):
     a = np.exp(ln_a)
     return a, b
 
-    
+calibration_images =[
+    ("0.jpg", 0),
+    ("1.jpg", 1),
+    ("10.jpg", 10),
+    ("100.jpg", 100)
+]
+
+
+calibration_intensities = []
+calibration_ntu_values = []
+
+for image_path, ntu_value in calibration_images:
+    try:
+        preprocessed = preprocess_image(image_path)
+        avg_intensity, _, _, _ = compute_intensity_metrics(preprocessed)
+        calibration_intensities.append(avg_intensity)
+        calibration_ntu_values.append(ntu_value)
+    except FileNotFoundError as e:
+        print(e)
