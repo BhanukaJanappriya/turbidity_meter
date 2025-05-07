@@ -106,3 +106,22 @@ try:
     region_brightness = segment_regions(preprocessed_unknown)
     
     estimated_ntu = a_param * np.exp(-b_param * avg_intensity)
+
+    print("=== Turbidity Estimation Results ===")
+    print(f"Average Intensity: {avg_intensity:.2f}")
+    print(f"Intensity Variance: {intensity_variance:.2f}")
+    print(f"Turbidity Index: {turbidity_index:.4f}")
+    print(f"Edge Density: {edge_density:.4f}")
+    print(f"Estimated NTU: {estimated_ntu:.2f}")
+
+    plt.figure(figsize=(10, 4))
+    plt.hist(region_brightness, bins=20, color='skyblue', edgecolor='black')
+    plt.title("Region Brightness Distribution")
+    plt.xlabel("Brightness")
+    plt.ylabel("Frequency")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+except FileNotFoundError as e:
+    print(e)
