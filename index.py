@@ -25,6 +25,17 @@ def compute_intensity_metrics(image):
     edge_density = edge_pixels / total_pixels
     return edge_density
 
+def compute_intensity_metrics(image):
+    """
+    Compute intensity metrics: average intensity, variance, min, and max.
+    """
+    avg_intensity = np.mean(image)
+    intensity_variance = np.var(image)
+    min_intensity = np.min(image)
+    max_intensity = np.max(image)
+    return avg_intensity, intensity_variance, min_intensity, max_intensity
+
+
 def segment_regions(image,block_size = 50):
     """
     Divide the image into blocks and compute average brightness for each block.
@@ -71,3 +82,16 @@ for image_path, ntu_value in calibration_images:
         calibration_ntu_values.append(ntu_value)
     except FileNotFoundError as e:
         print(e)
+        
+calibration_intensities = np.array(calibration_intensities)
+calibration_ntu_values = np.array(calibration_ntu_values)
+
+a_param, b_param = fit_exponential_model(calibration_intensities, calibration_ntu_values)
+
+unknown_image_path = "unknown_sample.jpg"
+try:
+    preprocessed_unknown = preprocess_image(unknown_image_path)
+    avg_intensity, intensity_variance, min_intensity, max_intensity = compute_intensity_metrics(preprocessed_unknown)
+    turbidity_index = compute_turbidity_index(min_intensity, max_intensity)
+    edge_density = compute_edge_density(preprocessed_unknown)
+    region_brightness = segment_regions(preprocessed_unknown)
