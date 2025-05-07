@@ -25,3 +25,19 @@ def compute_intensity_metrics(image):
     edge_density = edge_pixels / total_pixels
     return edge_density
 
+def segment_regions(image,block_size = 50):
+    """
+    Divide the image into blocks and compute average brightness for each block.
+    
+    """
+    h, w = image.shape
+    brightness_values = []
+    for y in range (0, h, block_size):
+        for x in range(0, w, block_size):
+            block = image[y:y+block_size, x:x+block_size]
+            if block.size == 0:
+                continue
+            brightness = np.mean(block)
+            brightness_values.append(brightness)
+    return brightness_values
+
