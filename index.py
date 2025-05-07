@@ -41,3 +41,15 @@ def segment_regions(image,block_size = 50):
             brightness_values.append(brightness)
     return brightness_values
 
+def fit_exponential_model(intensities, ntu_values):
+    """
+    Fit an exponential model NTU = a * exp(-b * I_avg) by linearizing the data.
+    """
+    ln_ntu = np.log(ntu_values)
+    coeffs = np.polyfit(intensities,ln_ntu, 1)
+    b = -coeffs[0]
+    ln_a = coeffs[1]
+    a = np.exp(ln_a)
+    return a, b
+
+    
