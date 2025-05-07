@@ -96,7 +96,7 @@ calibration_ntu_values = np.array(calibration_ntu_values)
 
 a_param, b_param = fit_exponential_model(calibration_intensities, calibration_ntu_values)
 
-unknown_image_path = "unknown_sample.jpg"
+unknown_image_path = "unknown_samples/verydark.jpg"
 
 try:
     preprocessed_unknown = preprocess_image(unknown_image_path)
