@@ -13,3 +13,15 @@ def preprocess_image(image_path):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     return blurred
+
+def compute_intensity_metrics(image):
+    """
+    Apply Canny edge detection and compute edge density
+
+    """
+    edges = cv2.Canny(image,100,200)
+    edge_pixels = np.sum(edges>0)
+    total_pixels = image.shape[0] * image.shape[1]
+    edge_density = edge_pixels / total_pixels
+    return edge_density
+
